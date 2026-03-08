@@ -1,0 +1,16 @@
+meta {
+  name: Delete document
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://0.0.0.0:5173/api/upload
+  body: multipartForm
+  auth: none
+}
+
+body:multipart-form {
+  thread_id: test-123-2
+  file: @file(/Users/wgcv/Downloads/AI Engineer GE Vernova.docx)
+}

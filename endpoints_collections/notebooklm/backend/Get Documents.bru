@@ -1,0 +1,15 @@
+meta {
+  name: Get Documents
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://0.0.0.0:5173/api/documents?thread_id
+  body: none
+  auth: none
+}
+
+params:query {
+  thread_id: 
+}

@@ -1,0 +1,19 @@
+meta {
+  name: Stream
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://0.0.0.0:5173/api/stream
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "thread_id": "test-123-3",
+    "message": "Where is role location?"
+  
+  }
+}
