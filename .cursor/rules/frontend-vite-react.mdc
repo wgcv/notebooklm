@@ -1,0 +1,42 @@
+---
+description: Vite and React best practices for NotebookLM frontend
+globs: frontend/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# Frontend: Vite + React
+
+## Project Context
+
+NotebookLM is a chat-with-documents app. Keep the frontend clean, readable, and minimal.
+
+## General
+
+- **DRY**: Extract shared logic into hooks and utilities; avoid copy-paste.
+- **No extra code**: Add only what the feature needs; remove unused imports and dead code.
+- **Library components first**: Prefer components from a UI library (e.g. Radix, shadcn/ui) over custom implementations when they fit.
+
+## Vite
+
+- Use `import.meta.env.VITE_*` for env vars; keep proxy config in `vite.config.ts`.
+- Use path aliases (`@/`) for cleaner imports if the project grows.
+- Keep `index.html` at project root; entry point in `src/main.tsx`.
+
+## React
+
+- Use functional components and hooks only.
+- Extract reusable logic into custom hooks (e.g. `useChat`, `useDocuments`).
+- Keep components small and single-purpose; split when a component exceeds ~80 lines.
+- Colocate component-specific styles (CSS modules or co-located `.css`).
+- Use TypeScript for props and state; avoid `any`.
+
+## Structure
+
+```text
+frontend/src/
+  components/     # Reusable UI
+  hooks/          # Custom hooks
+  pages/          # Route-level components
+  services/       # API calls
+  types/          # Shared types
+```

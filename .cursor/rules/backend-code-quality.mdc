@@ -1,0 +1,15 @@
+---
+description: Backend Python quality, DRY, and docstring standards
+globs: backend/**/*.py
+alwaysApply: false
+---
+
+# Backend Python Standards
+
+- Follow DRY: extract shared logic into utility/service functions; avoid copy-paste blocks.
+- Prefer small, single-purpose functions and clear module boundaries.
+- Add type hints for function inputs and return values.
+- Write docstrings for all public functions and classes.
+- Public docstrings should include purpose, args, returns, and raised errors when relevant.
+- Keep naming explicit and domain-oriented (`notebook_service`, `graph_state`, `summary_node`).
+- Add or update tests when behavior changes.
