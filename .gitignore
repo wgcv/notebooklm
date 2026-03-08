@@ -134,8 +134,15 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
+# Project-specific
+backend/database.db
+backend/chroma_db/
+node_modules/
+
 # Environments
 .env
+.env.*
+!frontend/.env.example
 .envrc
 .venv
 env/
