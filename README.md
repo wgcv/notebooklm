@@ -2,6 +2,10 @@
 
 A chat-with-documents application built with FastAPI, LangGraph, React, and Vite.
 
+## Architecture
+
+![Docker Compose architecture](docs/img/architecture.png)
+
 ## Quick Start
 
 ### Prerequisites
