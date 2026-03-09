@@ -1,15 +1,15 @@
 ---
-description: FastAPI and LangGraph backend conventions
+description: FastAPI and LangChain backend conventions
 globs: backend/**/*.py
 alwaysApply: false
 ---
 
-# FastAPI + LangGraph
+# FastAPI + LangChain
 
 - Keep route handlers thin; move business logic to services.
 - Use `async def` for I/O-bound endpoints and external calls.
 - Validate request/response bodies with Pydantic models.
 - Use FastAPI dependency injection for clients, DB sessions, and settings.
 - Raise explicit `HTTPException` with clear status codes and messages.
-- Build LangGraph flow in a dedicated graph module; keep node functions focused and testable.
+- Build LangChain flow in a dedicated graph module; keep node functions focused and testable.
 - Keep shared graph/state logic in reusable helpers to avoid duplication.
