@@ -10,7 +10,7 @@ A chat-with-documents application built with FastAPI, LangGraph, React, and Vite
 
 ### Prerequisites
 
-- [Docker](https://docs.docker.com/get-docker/) and Docker Compose
+- Docker and Docker Compose
 
 ### 1. Backend environment (required)
 
