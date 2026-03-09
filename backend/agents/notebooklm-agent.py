@@ -1,7 +1,10 @@
-"""NotebookLM-style RAG agent with Perplexity-like citations."""
-
 from __future__ import annotations
 
+from langchain_core.documents.base import Document
+
+
+
+from collections.abc import AsyncIterator
 from dataclasses import dataclass
 
 from langchain_core.documents import Document
@@ -11,6 +14,7 @@ from langchain_openrouter import ChatOpenRouter
 from embedding.vectordb import vectorstore
 
 MODEL_NAME = "stepfun/step-3.5-flash:free"
+# MODEL_NAME = "anthropic/claude-haiku-4.5"
 DEFAULT_TOP_K = 6
 
 
@@ -59,7 +63,7 @@ def format_context(docs: list[Document], source_to_index: dict[str, int]) -> str
         return ""
 
     blocks: list[str] = []
-    for idx, doc in enumerate(docs):
+    for idx, doc in enumerate[Document](docs):
         source_name = _source_name(doc)
         source_index = source_to_index[source_name]
         text = (doc.page_content or "").strip()
@@ -87,8 +91,8 @@ def build_references(refs: list[SourceRef]) -> str:
     return "\n".join(lines)
 
 
-async def ask_rag(question: str, thread_id: str, top_k: int = DEFAULT_TOP_K) -> str:
-    """Answer a question using thread-scoped Chroma retrieval with citations."""
+async def ask_rag(question: str, thread_id: str, top_k: int = DEFAULT_TOP_K) -> AsyncIterator[str]:
+    """Answer a question using thread-scoped Chroma retrieval with citations. Streams tokens."""
     docs = vectorstore.similarity_search(
         question,
         k=top_k,
@@ -96,11 +100,8 @@ async def ask_rag(question: str, thread_id: str, top_k: int = DEFAULT_TOP_K) -> 
     )
 
     if not docs:
-        return (
-            "I could not find relevant content for this thread.\n\n"
-            "Reference:\n"
-            "[0] no-matching-documents"
-        )
+        yield "I could not find relevant content in the uploaded documents.\n"
+        return
 
     refs, source_to_index = dedupe_sources(docs)
     context = format_context(docs, source_to_index)
@@ -110,19 +111,22 @@ async def ask_rag(question: str, thread_id: str, top_k: int = DEFAULT_TOP_K) -> 
         "You are NotebookLM-style assistant. Answer using only the provided context. "
         "When making factual statements, append citation markers like [0], [1]. "
         "Only cite source refs that exist in context. If information is missing, say so."
+        "If the question is not related to the uploaded documents, say 'I could not find relevant content in the uploaded documents.'"
     )
     user_prompt = (
         f"Question:\n{question}\n\n"
         f"Context:\n{context}\n\n"
-        "Return plain text answer with inline citations."
+        "Return markdown answer with inline citations."
     )
 
-    response = await model.ainvoke(
+    async for chunk in model.astream(
         [
             SystemMessage(content=system_prompt),
             HumanMessage(content=user_prompt),
         ]
-    )
-
-    answer = response.content if isinstance(response.content, str) else str(response.content)
-    return f"{answer.strip()}\n\n{references}"
+    ):
+        content = chunk.content
+        if content:
+            text = content if isinstance(content, str) else str(content)
+            yield text
+    yield f"\n\n{references}"

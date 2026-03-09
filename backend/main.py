@@ -49,8 +49,8 @@ class StreamRequest(BaseModel):
 
 
 async def token_stream(message: str, thread_id: str):
-    answer = await ask_rag(question=message, thread_id=thread_id)
-    yield answer
+    async for chunk in ask_rag(question=message, thread_id=thread_id):
+        yield chunk
 
 
 @app.post("/stream")
