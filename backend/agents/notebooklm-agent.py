@@ -13,8 +13,8 @@ from langchain_openrouter import ChatOpenRouter
 
 from embedding.vectordb import vectorstore
 
-MODEL_NAME = "stepfun/step-3.5-flash:free"
-# MODEL_NAME = "anthropic/claude-haiku-4.5"
+# MODEL_NAME = "stepfun/step-3.5-flash:free"
+MODEL_NAME = "anthropic/claude-haiku-4.5"
 DEFAULT_TOP_K = 6
 
 
