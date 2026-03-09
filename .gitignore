@@ -143,6 +143,8 @@ node_modules/
 .env
 .env.*
 !frontend/.env.example
+!backend/.env.example
+
 .envrc
 .venv
 env/
