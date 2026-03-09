@@ -7,7 +7,8 @@ interface DocumentsPanelProps {
 }
 
 function formatDate(value: string): string {
-  const date = new Date(value)
+  const utcValue = /Z$|[+-]\d{2}(:\d{2})?$/.test(value) ? value : `${value}Z`
+  const date = new Date(utcValue)
   if (Number.isNaN(date.getTime())) {
     return 'Unknown date'
   }
@@ -17,6 +18,7 @@ function formatDate(value: string): string {
     day: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
+    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   }).format(date)
 }
 
